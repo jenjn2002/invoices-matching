@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5550:80"
+    networks:
+      - invoice-matching-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    networks:
+      - invoice-matching-network
+
+  mock_backend:
+    build:
+      context: ./mock_backend
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    networks:
+      - invoice-matching-network
+
+networks:
+  invoice-matching-network:
+    driver: bridge
